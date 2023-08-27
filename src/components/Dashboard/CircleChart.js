@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement } from 'chart.js';
+import apiClient from '../../Api';
+
 Chart.register(ArcElement);
 
 const CircleChart = () => {
@@ -16,7 +17,7 @@ const CircleChart = () => {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:43572/api/ChartData')
+    apiClient.get('/api/ChartData')
       .then(response => {
         const { labels, data, backgroundColor } = response.data;
 
