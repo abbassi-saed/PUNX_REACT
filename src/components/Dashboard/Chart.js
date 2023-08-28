@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { BarChart, Bar, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
-
-// Generate User Type Data
-function createData(userType, count) {
-  return { userType, count };
-}
-
-const data = [
-  createData('User Type 1', 15),
-  createData('User Type 2', 25),
-  createData('User Type 3', 10),
-];
+import axios from 'axios'; // Import axios for making API requests
 
 export default function Chart() {
   const theme = useTheme();
+  const [data, setData] = useState([]); // State to store fetched data
+
+  useEffect(() => {
+    // Fetch data from the backend API
+    axios.get('http://localhost:64888/api/ChartData/GetProjectByUserType')
+      .then(response => {
+        // Assuming the API response is an array of objects with "userType" and "countOfProjects" properties
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   return (
     <React.Fragment>
@@ -52,7 +55,7 @@ export default function Chart() {
             </Label>
           </YAxis>
           <Bar
-            dataKey="count"
+            dataKey="countOfProjects"
             fill={theme.palette.primary.main}
           />
         </BarChart>

@@ -126,7 +126,7 @@ export default function Users() {
         // lastName: lastName,
         email: newUser.email,
         password: newUser.passw,
-        type: "1"
+        type: "user"
       };
       console.log(userData);
       response = await apiClient.post("/api/Users/register", userData, {
